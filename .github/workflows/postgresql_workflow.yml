@@ -23,6 +23,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -45,6 +46,19 @@ jobs:
     - name: Insert data
       run: |
         PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -f 02_insert_data.sql      
+
+    - name: Wait for PostgreSQL
+      run: |
+        sleep 10
+
+    - name: Set up database schema and data
+      run: |
+        PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -f 01_create_tables.sql
+
+    - name: Insert data
+      run: |
+        PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -f 02_insert_data.sql      
+
     - name: Create views
       run: |
         PGPASSWORD=postgres psql -h localhost -U postgres -d test_db -f 03_create_views.sql          
