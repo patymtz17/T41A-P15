@@ -1,0 +1,3 @@
+pytest
+psycopg2-binary
+ 52 changes: 52 additions & 0 deletions52  
